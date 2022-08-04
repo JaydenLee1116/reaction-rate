@@ -27,13 +27,16 @@ $screen.addEventListener('click', (event) => {
     const current = endTime - startTime;
     records.push(current);
     const average = records.reduce((acc, cur) => acc + cur, 0) / records.length;
-    $result.innerHTML = `현재 : ${current}ms, 평균 : ${Math.floor(
+    $result.textContent = `현재 : ${current}ms, 평균 : ${Math.floor(
       average
-    )}ms, 총 횟수 : ${records.length}번<br/>
-    Top 5 : ${records
-      .sort((a, b) => a - b)
-      .slice(0, 4)
-      .join('--')}`;
+    )}ms, 총 횟수 : ${records.length}번`;
+    const topFive = records.sort((a, b) => a - b).slice(0, 5);
+    topFive.forEach((time, index) => {
+      $result.append(
+        document.createElement('br'),
+        `${index + 1}위 : ${time}ms`
+      );
+    });
     // 이전값이 다시 사용될 수 있으니 변수들 초기화(안써도 문제는 없음)
     startTime = null;
     endTime = null;
